@@ -1,0 +1,15 @@
+A:\Study\Proof of Existence .NET DApp\Proof-of-Existence\POE.DAL\bin\Debug\POE.DAL.dll.config
+A:\Study\Proof of Existence .NET DApp\Proof-of-Existence\POE.DAL\bin\Debug\POE.DAL.dll
+A:\Study\Proof of Existence .NET DApp\Proof-of-Existence\POE.DAL\bin\Debug\POE.DAL.pdb
+A:\Study\Proof of Existence .NET DApp\Proof-of-Existence\POE.DAL\bin\Debug\EntityFramework.dll
+A:\Study\Proof of Existence .NET DApp\Proof-of-Existence\POE.DAL\bin\Debug\EntityFramework.SqlServer.dll
+A:\Study\Proof of Existence .NET DApp\Proof-of-Existence\POE.DAL\bin\Debug\Microsoft.AspNet.Identity.Core.dll
+A:\Study\Proof of Existence .NET DApp\Proof-of-Existence\POE.DAL\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll
+A:\Study\Proof of Existence .NET DApp\Proof-of-Existence\POE.DAL\bin\Debug\EntityFramework.xml
+A:\Study\Proof of Existence .NET DApp\Proof-of-Existence\POE.DAL\bin\Debug\EntityFramework.SqlServer.xml
+A:\Study\Proof of Existence .NET DApp\Proof-of-Existence\POE.DAL\bin\Debug\Microsoft.AspNet.Identity.Core.xml
+A:\Study\Proof of Existence .NET DApp\Proof-of-Existence\POE.DAL\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
+A:\Study\Proof of Existence .NET DApp\Proof-of-Existence\POE.DAL\obj\Debug\POE.DAL.csprojResolveAssemblyReference.cache
+A:\Study\Proof of Existence .NET DApp\Proof-of-Existence\POE.DAL\obj\Debug\POE.DAL.csproj.CoreCompileInputs.cache
+A:\Study\Proof of Existence .NET DApp\Proof-of-Existence\POE.DAL\obj\Debug\POE.DAL.dll
+A:\Study\Proof of Existence .NET DApp\Proof-of-Existence\POE.DAL\obj\Debug\POE.DAL.pdb
