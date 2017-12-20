@@ -1,6 +1,8 @@
 ﻿using POE.DAL.EF;
 using POE.DAL.Entities;
 using POE.DAL.Interfaces;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace POE.DAL.Repositories
 {
@@ -17,6 +19,17 @@ namespace POE.DAL.Repositories
             Database.ClientProfiles.Add(item);
             Database.SaveChanges();
         }
+
+        public List<string> GetAddressByEmail(string id)
+        {
+            var addresses = new List<string>();
+            var address = from data in Database.ClientProfiles where data.Id == id select data.Address;
+            foreach (var item in address)
+            {
+                addresses.Add(item);
+            }
+            return addresses;
+         }
 
         public void Dispose()
         {

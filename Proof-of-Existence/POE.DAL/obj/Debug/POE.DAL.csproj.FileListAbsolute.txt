@@ -9,7 +9,7 @@ A:\Study\Proof of Existence .NET DApp\Proof-of-Existence\POE.DAL\bin\Debug\Entit
 A:\Study\Proof of Existence .NET DApp\Proof-of-Existence\POE.DAL\bin\Debug\EntityFramework.SqlServer.xml
 A:\Study\Proof of Existence .NET DApp\Proof-of-Existence\POE.DAL\bin\Debug\Microsoft.AspNet.Identity.Core.xml
 A:\Study\Proof of Existence .NET DApp\Proof-of-Existence\POE.DAL\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
-A:\Study\Proof of Existence .NET DApp\Proof-of-Existence\POE.DAL\obj\Debug\POE.DAL.csprojResolveAssemblyReference.cache
 A:\Study\Proof of Existence .NET DApp\Proof-of-Existence\POE.DAL\obj\Debug\POE.DAL.csproj.CoreCompileInputs.cache
 A:\Study\Proof of Existence .NET DApp\Proof-of-Existence\POE.DAL\obj\Debug\POE.DAL.dll
 A:\Study\Proof of Existence .NET DApp\Proof-of-Existence\POE.DAL\obj\Debug\POE.DAL.pdb
+A:\Study\Proof of Existence .NET DApp\Proof-of-Existence\POE.DAL\obj\Debug\POE.DAL.csprojResolveAssemblyReference.cache

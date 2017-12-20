@@ -59,3 +59,14 @@ A:\Study\Proof of Existence .NET DApp\Proof-of-Existence\POE.WEB\bin\Nethereum.R
 A:\Study\Proof of Existence .NET DApp\Proof-of-Existence\POE.WEB\bin\Nethereum.Signer.dll
 A:\Study\Proof of Existence .NET DApp\Proof-of-Existence\POE.WEB\bin\Nethereum.Util.dll
 A:\Study\Proof of Existence .NET DApp\Proof-of-Existence\POE.WEB\bin\Nethereum.Web3.dll
+A:\Study\Proof of Existence .NET DApp\Proof-of-Existence\POE.WEB\bin\EntityFramework.SqlServer.dll
+A:\Study\Proof of Existence .NET DApp\Proof-of-Existence\POE.WEB\bin\EntityFramework.SqlServer.xml
+A:\Study\Proof of Existence .NET DApp\Proof-of-Existence\POE.WEB\bin\Nethereum.Geth.dll
+A:\Study\Proof of Existence .NET DApp\Proof-of-Existence\POE.WEB\bin\xunit.abstractions.dll
+A:\Study\Proof of Existence .NET DApp\Proof-of-Existence\POE.WEB\bin\xunit.assert.dll
+A:\Study\Proof of Existence .NET DApp\Proof-of-Existence\POE.WEB\bin\xunit.core.dll
+A:\Study\Proof of Existence .NET DApp\Proof-of-Existence\POE.WEB\bin\xunit.execution.desktop.dll
+A:\Study\Proof of Existence .NET DApp\Proof-of-Existence\POE.WEB\bin\xunit.abstractions.xml
+A:\Study\Proof of Existence .NET DApp\Proof-of-Existence\POE.WEB\bin\xunit.assert.xml
+A:\Study\Proof of Existence .NET DApp\Proof-of-Existence\POE.WEB\bin\xunit.core.xml
+A:\Study\Proof of Existence .NET DApp\Proof-of-Existence\POE.WEB\bin\xunit.execution.desktop.xml

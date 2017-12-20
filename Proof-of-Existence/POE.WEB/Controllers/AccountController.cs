@@ -102,8 +102,8 @@ namespace POE.WEB.Controllers
                 Email = "somemail@mail.ru",
                 UserName = "somemail@mail.ru",
                 Password = "ad46D_ewr3",
-                Name = "Семен Семенович Горбунков",
-                Address = "ул. Спортивная, д.30, кв.75",
+                Name = "Nick Jonson",
+                Address = "0xasd56wd6546sdasd6as5d4asdj",
                 Role = "admin",
             }, new List<string> { "user", "admin" });
         }

@@ -6,3 +6,21 @@
 
 <h2>@User.Identity.Name</h2>
 
+@if (User.Identity.IsAuthenticated)
+{
+    using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+       
+
+            <label for="file">Filename:</label>
+            <input type="file" name="file" id="file" />
+
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password" />
+
+            <input type="submit" />
+      
+    }
+}
+
+

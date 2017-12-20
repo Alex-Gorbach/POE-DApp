@@ -23,9 +23,12 @@ namespace POE.BLL.Services
         public async Task<OperationDetails> Create(UserDTO userDto)
         {
             ApplicationUser user = await Database.UserManager.FindByEmailAsync(userDto.Email);
-            if (user == null)
+            ApplicationUser addr = await Database.UserManager.FindByNameAsync(userDto.Address);
+
+            if (user == null && addr==null)
             {
-                user = new ApplicationUser { Email = userDto.Email, UserName = userDto.Email };
+
+                user = new ApplicationUser { Email = userDto.Email, UserName = userDto.Address };
                 var result = await Database.UserManager.CreateAsync(user, userDto.Password);
                 if (result.Errors.Count() > 0)
                     return new OperationDetails(false, result.Errors.FirstOrDefault(), "");
@@ -53,6 +56,12 @@ namespace POE.BLL.Services
                 claim = await Database.UserManager.CreateIdentityAsync(user,
                                             DefaultAuthenticationTypes.ApplicationCookie);
             return claim;
+        }
+
+        public List<string> GetAddress (string id)
+        {
+            var address = Database.ClientManager.GetAddressByEmail(id);
+            return address;
         }
 
         // initialization of DB
