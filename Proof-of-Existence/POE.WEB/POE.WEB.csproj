@@ -216,7 +216,7 @@
     <Compile Include="Models\DeployDocumentModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
-    <Compile Include="Nethereum\Contract_work.cs" />
+    <Compile Include="Nethereum\ContractService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

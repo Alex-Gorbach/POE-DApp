@@ -11,77 +11,81 @@ using System.Linq;
 
 namespace POE.BLL.Services
 {
-    public class UserService : IUserService
-    {
-        IUnitOfWork Database { get; set; }
-
-        public UserService(IUnitOfWork uow)
-        {
-            Database = uow;
-        }
-
-        public async Task<OperationDetails> Create(UserDTO userDto)
-        {
-            ApplicationUser user = await Database.UserManager.FindByEmailAsync(userDto.Email);
-            ApplicationUser addr = await Database.UserManager.FindByNameAsync(userDto.Address);
-
-            if (user == null && addr==null)
-            {
-
-                user = new ApplicationUser { Email = userDto.Email, UserName = userDto.Address };
-                var result = await Database.UserManager.CreateAsync(user, userDto.Password);
-                if (result.Errors.Count() > 0)
-                    return new OperationDetails(false, result.Errors.FirstOrDefault(), "");
-                // add role
-                await Database.UserManager.AddToRoleAsync(user.Id, userDto.Role);
-                // create client profile
-                ClientProfile clientProfile = new ClientProfile { Id = user.Id, Address = userDto.Address, Name = userDto.Name };
-                Database.ClientManager.Create(clientProfile);
-                await Database.SaveAsync();
-                return new OperationDetails(true, "Registration successful", "");
-            }
-            else
-            {
-                return new OperationDetails(false, "User with such login already exists", "Email");
-            }
-        }
-
-        public async Task<ClaimsIdentity> Authenticate(UserDTO userDto)
-        {
-            ClaimsIdentity claim = null;
-            // find the user
-            ApplicationUser user = await Database.UserManager.FindAsync(userDto.Email, userDto.Password);
-            // authorize it and return the object ClaimsIdentity
-            if (user != null)
-                claim = await Database.UserManager.CreateIdentityAsync(user,
-                                            DefaultAuthenticationTypes.ApplicationCookie);
-            return claim;
-        }
-
-        public List<string> GetAddress (string id)
+  public class UserService : IUserService
+  {
+        public List<string> GetAddress(string id)
         {
             var address = Database.ClientManager.GetAddressByEmail(id);
             return address;
         }
+        IUnitOfWork Database { get; set; }
 
-        // initialization of DB
-        public async Task SetInitialData(UserDTO adminDto, List<string> roles)
-        {
-            foreach (string roleName in roles)
+            public UserService(IUnitOfWork uow)
             {
-                var role = await Database.RoleManager.FindByNameAsync(roleName);
-                if (role == null)
+                Database = uow;
+            }
+
+            public async Task<OperationDetails> Create(UserDTO userDto)
+            {
+                ApplicationUser user = await Database.UserManager.FindByEmailAsync(userDto.Email);
+                if (user == null)
                 {
-                    role = new ApplicationRole { Name = roleName };
-                    await Database.RoleManager.CreateAsync(role);
+                    user = new ApplicationUser { Email = userDto.Email, UserName = userDto.Email };
+                    var result = await Database.UserManager.CreateAsync(user, userDto.Password);
+                    if (result.Errors.Count() > 0)
+                        return new OperationDetails(false, result.Errors.FirstOrDefault(), "");
+                    // добавляем роль
+                    await Database.UserManager.AddToRoleAsync(user.Id, userDto.Role);
+                    // создаем профиль клиента
+                    ClientProfile clientProfile = new ClientProfile { Id = user.Id, Address = userDto.Address, Name = userDto.Name };
+                    Database.ClientManager.Create(clientProfile);
+                    await Database.SaveAsync();
+                    return new OperationDetails(true, "Регистрация успешно пройдена", "");
+                }
+                else
+                {
+                    return new OperationDetails(false, "Пользователь с таким логином уже существует", "Email");
                 }
             }
-            await Create(adminDto);
+
+            public async Task<ClaimsIdentity> Authenticate(UserDTO userDto)
+            {
+                ClaimsIdentity claim = null;
+                // находим пользователя
+                ApplicationUser user = await Database.UserManager.FindAsync(userDto.Email, userDto.Password);
+                // авторизуем его и возвращаем объект ClaimsIdentity
+                if (user != null)
+                    claim = await Database.UserManager.CreateIdentityAsync(user,
+                                                DefaultAuthenticationTypes.ApplicationCookie);
+                return claim;
+            }
+
+            // начальная инициализация бд
+            public async Task SetInitialData(UserDTO adminDto, List<string> roles)
+            {
+                foreach (string roleName in roles)
+                {
+                    var role = await Database.RoleManager.FindByNameAsync(roleName);
+                    if (role == null)
+                    {
+                        role = new ApplicationRole { Name = roleName };
+                        await Database.RoleManager.CreateAsync(role);
+                    }
+                }
+                await Create(adminDto);
+            }
+
+            public void Dispose()
+            {
+                Database.Dispose();
+            }
         }
 
-        public void Dispose()
-        {
-            Database.Dispose();
-        }
+       
+
+
+
+
+
+
     }
-}

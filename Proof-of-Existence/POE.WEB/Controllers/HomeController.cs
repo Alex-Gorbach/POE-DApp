@@ -7,6 +7,8 @@ using System.Security.Cryptography;
 using System;
 using Microsoft.AspNet.Identity;
 using System.IO;
+using Nethereum.Geth;
+using Nethereum.Web3;
 
 namespace UserStore.Controllers
 {
@@ -19,6 +21,8 @@ namespace UserStore.Controllers
                 return HttpContext.GetOwinContext().GetUserManager<IUserService>();
             }
         }
+
+
         [HttpPost]
         public ActionResult Index(HttpPostedFileBase file,string password)
         {
@@ -40,11 +44,11 @@ namespace UserStore.Controllers
                 }
 
                 string id = User.Identity.GetUserId();
-                var contractWorcker = new Contract_work();
                 var owner = UserService.GetAddress(id);
-                contractWorcker.DeployContract(owner[0], password, result);
+                var contractService = new ContractService(owner[0], password, result);
 
-                return View("SuccessUpload");
+                contractService.SetFileHash();
+               
             }
 
             return RedirectToAction("Index");
@@ -62,23 +66,6 @@ namespace UserStore.Controllers
             return View();
         }
 
-        
-        [HttpPost]
-        public ActionResult Upload(HttpPostedFileBase upload,string password)
-        {
-            if (upload != null)
-            {
-                //// получаем имя файла
-                //string fileName = System.IO.Path.GetFileName(upload.FileName);
-                //// сохраняем файл в папку Files в проекте
-                //upload.SaveAs(Server.MapPath("~/Files/" + fileName));
-                string id = User.Identity.GetUserId();
-                var contractWorcker = new Contract_work();
-                var owner = UserService.GetAddress(id);
-                contractWorcker.DeployContract("0x0278168ff9757d848cec9d3bd0bc73d4093bd708", "452e7f5374a4574976dbeb7b6b24b201e243176cf24210337addf05ddd29ff2c", "7838F0C4E33740271E729BE1BC5B8176");
-                return View("SuccessUpload");
-            }
-            return RedirectToAction("Index");
-        }
+       
     }
 }

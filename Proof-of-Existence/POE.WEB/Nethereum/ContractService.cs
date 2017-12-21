@@ -1,0 +1,78 @@
+﻿using Nethereum.Contracts;
+using Nethereum.Geth;
+using Nethereum.Hex.HexTypes;
+using System.Threading;
+using System.Threading.Tasks;
+using Xunit;
+
+namespace POE.WEB.Nethereum
+{
+   
+    public class ContractService
+    {
+        private string owner;
+        private string password;
+        private string fileHash;
+
+        private readonly Web3Geth web3;
+        private Contract contract;
+
+        private string byteCode = "0x6060604052341561000f57600080fd5b61074d8061001e6000396000f30060606040526004361061004b5763ffffffff7c0100000000000000000000000000000000000000000000000000000000600035041663693ec85e8114610050578063e942b5161461011f575b600080fd5b341561005b57600080fd5b6100a160046024813581810190830135806020601f820181900481020160405190810160405281815292919060208401838380828437509496506101b495505050505050565b60405182815260406020820181815290820183818151815260200191508051906020019080838360005b838110156100e35780820151838201526020016100cb565b50505050905090810190601f1680156101105780820380516001836020036101000a031916815260200191505b50935050505060405180910390f35b341561012a57600080fd5b6101b260046024813581810190830135806020601f8201819004810201604051908101604052818152929190602084018383808284378201915050505050509190803590602001908201803590602001908080601f01602080910402602001604051908101604052818152929190602084018383808284375094965061033295505050505050565b005b60006101be610674565b6000836040518082805190602001908083835b602083106101f05780518252601f1990920191602091820191016101d1565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051908190039020546000846040518082805190602001908083835b602083106102575780518252601f199092019160209182019101610238565b6001836020036101000a0380198251168184511680821785525050505050509050019150509081526020016040518091039020600101808054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156103225780601f106102f757610100808354040283529160200191610322565b820191906000526020600020905b81548152906001019060200180831161030557829003601f168201915b5050505050905091509150915091565b6000816040518082805190602001908083835b602083106103645780518252601f199092019160209182019101610345565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051908190039020541515610558576040805190810160405280428152602001838152506000826040518082805190602001908083835b602083106103e65780518252601f1990920191602091820191016103c7565b6001836020036101000a03801982511681845116808217855250505050505090500191505090815260200160405190819003902081518155602082015181600101908051610438929160200190610686565b509050507f0d3bbc3c02da6ed436712ca1a0f626f1269df703a105f034e4637c7b10fb7ba56001428484604051841515815260208101849052608060408201818152906060830190830185818151815260200191508051906020019080838360005b838110156104b257808201518382015260200161049a565b50505050905090810190601f1680156104df5780820380516001836020036101000a031916815260200191505b50838103825284818151815260200191508051906020019080838360005b838110156105155780820151838201526020016104fd565b50505050905090810190601f1680156105425780820380516001836020036101000a031916815260200191505b50965050505050505060405180910390a1610670565b7f0d3bbc3c02da6ed436712ca1a0f626f1269df703a105f034e4637c7b10fb7ba56000428484604051841515815260208101849052608060408201818152906060830190830185818151815260200191508051906020019080838360005b838110156105ce5780820151838201526020016105b6565b50505050905090810190601f1680156105fb5780820380516001836020036101000a031916815260200191505b50838103825284818151815260200191508051906020019080838360005b83811015610631578082015183820152602001610619565b50505050905090810190601f16801561065e5780820380516001836020036101000a031916815260200191505b50965050505050505060405180910390a15b5050565b60206040519081016040526000815290565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f106106c757805160ff19168380011785556106f4565b828001600101855582156106f4579182015b828111156106f45782518255916020019190600101906106d9565b50610700929150610704565b5090565b61071e91905b80821115610700576000815560010161070a565b905600a165627a7a723058209614b47520e8a54460d2bf0e17271862220aafeadc87daed7aeac42a7c2682510029";
+        private string abi = @"[{""constant"":false,""inputs"":[{""name"":""fileHash"",""type"":""string""}],""name"":""get"",""outputs"":[{""name"":""timestamp"",""type"":""uint256""},{""name"":""owner"",""type"":""string""}],""payable"":false,""stateMutability"":""nonpayable"",""type"":""function""},{""constant"":false,""inputs"":[{""name"":""owner"",""type"":""string""},{""name"":""fileHash"",""type"":""string""}],""name"":""set"",""outputs"":[],""payable"":false,""stateMutability"":""nonpayable"",""type"":""function""},{""anonymous"":false,""inputs"":[{""indexed"":false,""name"":""status"",""type"":""bool""},{""indexed"":false,""name"":""timestamp"",""type"":""uint256""},{""indexed"":false,""name"":""owner"",""type"":""string""},{""indexed"":false,""name"":""fileHash"",""type"":""string""}],""name"":""logFileAddedStatus"",""type"":""event""}][{""constant"":false,""inputs"":[{""name"":""fileHash"",""type"":""string""}],""name"":""get"",""outputs"":[{""name"":""timestamp"",""type"":""uint256""},{""name"":""owner"",""type"":""string""}],""payable"":false,""stateMutability"":""nonpayable"",""type"":""function""},{""constant"":false,""inputs"":[{""name"":""owner"",""type"":""string""},{""name"":""fileHash"",""type"":""string""}],""name"":""set"",""outputs"":[],""payable"":false,""stateMutability"":""nonpayable"",""type"":""function""},{""anonymous"":false,""inputs"":[{""indexed"":false,""name"":""status"",""type"":""bool""},{""indexed"":false,""name"":""timestamp"",""type"":""uint256""},{""indexed"":false,""name"":""owner"",""type"":""string""},{""indexed"":false,""name"":""fileHash"",""type"":""string""}],""name"":""logFileAddedStatus"",""type"":""event""}]";
+
+     
+
+
+
+        public ContractService( string address,string password,string fileHash)
+        {
+            this.owner = address;
+            this.password = password;
+            this.fileHash = fileHash;
+        }
+
+        public async Task SetFileHash( )
+        {
+            var web3Geth = new Web3Geth();
+            var unlockAccountResult =await web3.Personal.UnlockAccount.SendRequestAsync(owner, password, 120);
+
+            var transactionHash =await web3.Eth.DeployContract.SendRequestAsync(abi, byteCode, owner, fileHash);
+            var mineResult = await web3.Miner.Start.SendRequestAsync(6);
+            var receipt = await web3.Eth.Transactions.GetTransactionReceipt.SendRequestAsync(transactionHash);
+
+            while (receipt == null)
+            {
+                Thread.Sleep(5000);
+                receipt = await web3.Eth.Transactions.GetTransactionReceipt.SendRequestAsync(transactionHash);
+            }
+
+            var contractAddress = receipt.ContractAddress;
+            var contract = web3.Eth.GetContract(abi, contractAddress);
+            var multiplyFunction = contract.GetFunction("set");
+            var result = await multiplyFunction.CallAsync<string>(owner,fileHash);
+
+        }
+
+        public async Task CheckFileHash()
+        {
+            var web3Geth = new Web3Geth();
+            var unlockAccountResult = await web3.Personal.UnlockAccount.SendRequestAsync(owner, password, 120);
+
+            var transactionHash = await web3.Eth.DeployContract.SendRequestAsync(abi, byteCode,fileHash);
+            var mineResult = await web3.Miner.Start.SendRequestAsync(6);
+            var receipt = await web3.Eth.Transactions.GetTransactionReceipt.SendRequestAsync(transactionHash);
+
+            while (receipt == null)
+            {
+                Thread.Sleep(5000);
+                receipt = await web3.Eth.Transactions.GetTransactionReceipt.SendRequestAsync(transactionHash);
+            }
+
+            var contractAddress = receipt.ContractAddress;
+            var contract = web3.Eth.GetContract(abi, contractAddress);
+            var multiplyFunction = contract.GetFunction("get");
+            var result = await multiplyFunction.CallAsync<string>(fileHash);
+
+        }
+    }
+}
