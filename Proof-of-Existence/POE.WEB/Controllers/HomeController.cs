@@ -46,8 +46,8 @@ namespace UserStore.Controllers
                 string id = User.Identity.GetUserId();
                 var owner = UserService.GetAddress(id);
                 var contractService = new ContractService(owner[0], password, result);
-
                 contractService.SetFileHash();
+               // contractService.GetFileHash();
                
             }
 
