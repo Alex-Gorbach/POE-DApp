@@ -5,6 +5,7 @@ using POE.BLL.Interfaces;
 using POE.WEB.Nethereum;
 using System.Security.Cryptography;
 using System;
+using System.Collections.Generic;
 using Microsoft.AspNet.Identity;
 using System.IO;
 using System.Threading.Tasks;
@@ -59,7 +60,7 @@ namespace UserStore.Controllers
         [HttpPost]
         public async Task<ActionResult> Check(HttpPostedFileBase file)
         {
-            string res = "";
+            object res ;
             if (file.ContentLength > 0)
             {
                 byte[] imageData = null;
@@ -84,7 +85,7 @@ namespace UserStore.Controllers
 
             }
 
-            return View("SuccessUpload", res);
+            return View("SuccessUpload");
         }
         public ActionResult Index()
         {

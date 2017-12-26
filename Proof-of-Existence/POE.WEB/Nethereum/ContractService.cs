@@ -1,4 +1,5 @@
-﻿using Nethereum.Contracts;
+﻿using System.Collections.Generic;
+using Nethereum.Contracts;
 using Nethereum.Web3;
 using Nethereum.Hex.HexTypes;
 using System.Threading;
@@ -35,11 +36,11 @@ namespace POE.WEB.Nethereum
             ulong totalSupply = 10000;
             var contract =web3.Eth.GetContract(abi, "0x243e72b69141f6af525a9a5fd939668ee9f2b354");
             var setHash = contract.GetFunction("set");
-            var result = await setHash.SendTransactionAsync(senderAddress, /*new HexBigInteger(4700000),*//* new HexBigInteger(UnitConversion.Convert.ToWei(20)),*/ "Mike");
+            var result = await setHash.SendTransactionAsync(senderAddress, new HexBigInteger(4700000), new HexBigInteger(UnitConversion.Convert.ToWei(20)), @"[{""asa"",""asdasd""}]");
      
         }
 
-        public async Task<string> GetFileHash()
+        public async Task<object> GetFileHash()
         {
             var privateKey = "0xb5b1870957d373ef0eeffecc6e4812c0fd08f554b37b233526acc331bf1544f7";
             var senderAddress = "0x12890d2cce102216644c59daE5baed380d84830c";
@@ -48,7 +49,7 @@ namespace POE.WEB.Nethereum
             ulong totalSupply = 10000;
             var contract = web3.Eth.GetContract(abi, "0x243e72b69141f6af525a9a5fd939668ee9f2b354");
             var setHash = contract.GetFunction("get");
-            var result = await setHash.CallAsync<string>("qw");
+            var result = await setHash.CallAsync<object>(@"[{""asdasd""}]");
             return result;
         }
 
