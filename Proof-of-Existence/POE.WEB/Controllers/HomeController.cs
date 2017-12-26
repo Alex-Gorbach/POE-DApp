@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 using System;
 using Microsoft.AspNet.Identity;
 using System.IO;
+using System.Threading.Tasks;
 using Nethereum.Geth;
 using Nethereum.Web3;
 
@@ -24,7 +25,7 @@ namespace UserStore.Controllers
 
 
         [HttpPost]
-        public ActionResult Index(HttpPostedFileBase file,string password)
+        public async Task<ActionResult> Index(HttpPostedFileBase file,string password)
         {
 
             if (file.ContentLength > 0)
@@ -46,12 +47,44 @@ namespace UserStore.Controllers
                 string id = User.Identity.GetUserId();
                 var owner = UserService.GetAddress(id);
                 var contractService = new ContractService(owner[0], password, result);
-                contractService.SetFileHash();
-               // contractService.GetFileHash();
+                await contractService.SetFileHash();
+              
+                
                
             }
 
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Check(HttpPostedFileBase file)
+        {
+            string res = "";
+            if (file.ContentLength > 0)
+            {
+                byte[] imageData = null;
+                
+                using (var binaryReader = new BinaryReader(file.InputStream))
+                {
+                    imageData = binaryReader.ReadBytes(file.ContentLength);
+                }
+                MD5 md5 = new MD5CryptoServiceProvider();
+                byte[] hashenc = md5.ComputeHash(imageData);
+                string result = "";
+                foreach (var b in hashenc)
+                {
+                    result += b.ToString("x2");
+                }
+
+                string id = User.Identity.GetUserId();
+                var owner = UserService.GetAddress(id);
+                var contractService = new ContractService(owner[0], "asd", result);
+                res=await contractService.GetFileHash();
+                ViewData["Message"] = res;
+
+            }
+
+            return View("SuccessUpload", res);
         }
         public ActionResult Index()
         {
