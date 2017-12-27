@@ -17,8 +17,8 @@ namespace POE.WEB.Nethereum
         private string owner;
         private string password;
         private string fileHash;
-
-        private string abi = @"[{""constant"":false,""inputs"":[{""name"":""fileHash"",""type"":""string""}],""name"":""get"",""outputs"":[{""name"":""timestamp"",""type"":""uint256""},{""name"":""owner"",""type"":""string""}],""payable"":false,""stateMutability"":""nonpayable"",""type"":""function""},{""constant"":false,""inputs"":[{""name"":""owner"",""type"":""string""},{""name"":""fileHash"",""type"":""string""}],""name"":""set"",""outputs"":[],""payable"":false,""stateMutability"":""nonpayable"",""type"":""function""},{""anonymous"":false,""inputs"":[{""indexed"":false,""name"":""status"",""type"":""bool""},{""indexed"":false,""name"":""timestamp"",""type"":""uint256""},{""indexed"":false,""name"":""owner"",""type"":""string""},{""indexed"":false,""name"":""fileHash"",""type"":""string""}],""name"":""logFileAddedStatus"",""type"":""event""}]";
+        private string abi = @"[{""constant"":true,""inputs"":[],""name"":""getInstructor"",""outputs"":[{""name"":"""",""type"":""string""}],""payable"":false,""stateMutability"":""view"",""type"":""function""},{""constant"":false,""inputs"":[{""name"":""_fName"",""type"":""string""}],""name"":""setInstructor"",""outputs"":[],""payable"":false,""stateMutability"":""nonpayable"",""type"":""function""}]";
+        //private string abi = @"[{""constant"":false,""inputs"":[{""name"":""fileHash"",""type"":""string""}],""name"":""get"",""outputs"":[{""name"":""timestamp"",""type"":""uint256""},{""name"":""owner"",""type"":""string""}],""payable"":false,""stateMutability"":""nonpayable"",""type"":""function""},{""constant"":false,""inputs"":[{""name"":""owner"",""type"":""string""},{""name"":""fileHash"",""type"":""string""}],""name"":""set"",""outputs"":[],""payable"":false,""stateMutability"":""nonpayable"",""type"":""function""},{""anonymous"":false,""inputs"":[{""indexed"":false,""name"":""status"",""type"":""bool""},{""indexed"":false,""name"":""timestamp"",""type"":""uint256""},{""indexed"":false,""name"":""owner"",""type"":""string""},{""indexed"":false,""name"":""fileHash"",""type"":""string""}],""name"":""logFileAddedStatus"",""type"":""event""}]";
 
         public ContractService( string address,string password,string fileHash)
         {
@@ -34,9 +34,9 @@ namespace POE.WEB.Nethereum
             var account = new Account(privateKey);
             var web3 = new Web3(account);
             ulong totalSupply = 10000;
-            var contract =web3.Eth.GetContract(abi, "0x243e72b69141f6af525a9a5fd939668ee9f2b354");
-            var setHash = contract.GetFunction("set");
-            var result = await setHash.SendTransactionAsync(senderAddress, new HexBigInteger(4700000), new HexBigInteger(UnitConversion.Convert.ToWei(20)), @"[{""asa"",""asdasd""}]");
+            var contract =web3.Eth.GetContract(abi, "0x8e100a7b2819c1edc8c8fd3cc53068f501a8cc08");
+            var setHash = contract.GetFunction("setInstructor");
+            var result = await setHash.SendTransactionAsync(senderAddress, new HexBigInteger(4700000), new HexBigInteger(UnitConversion.Convert.ToWei(20)), @"[{""asa""}]");
      
         }
 
@@ -47,9 +47,10 @@ namespace POE.WEB.Nethereum
             var account = new Account(privateKey);
             var web3 = new Web3(account);
             ulong totalSupply = 10000;
-            var contract = web3.Eth.GetContract(abi, "0x243e72b69141f6af525a9a5fd939668ee9f2b354");
-            var setHash = contract.GetFunction("get");
-            var result = await setHash.CallAsync<object>(@"[{""asdasd""}]");
+            var contract = web3.Eth.GetContract(abi, "0x8e100a7b2819c1edc8c8fd3cc53068f501a8cc08");
+            var setHash = contract.GetFunction("getInstructor");
+
+            var result = await setHash.CallAsync<object>();
             return result;
         }
 
