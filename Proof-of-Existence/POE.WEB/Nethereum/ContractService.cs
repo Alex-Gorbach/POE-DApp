@@ -25,7 +25,7 @@ namespace POE.WEB.Nethereum
             var senderAddress = _owner;
             var account = new Account(privateKey);
             var web3 = new Web3(account);
-            var contract =web3.Eth.GetContract(Abi, "0xd68d97363aedf990c2e9b96b7db51b4dc6f30f6b");
+            var contract =web3.Eth.GetContract(Abi, "0x243e72b69141f6af525a9a5fd939668ee9f2b354");
             var setHash = contract.GetFunction("set");
             var res = await setHash.EstimateGasAsync(_owner, _fileHash);
             var result = await setHash.SendTransactionAsync(senderAddress,res,null, _owner, _fileHash);
@@ -38,7 +38,7 @@ namespace POE.WEB.Nethereum
             var privateKey = this._privateKey;
             var account = new Account(privateKey);
             var web3 = new Web3(account);
-            var contract = web3.Eth.GetContract(Abi, "0xd68d97363aedf990c2e9b96b7db51b4dc6f30f6b");
+            var contract = web3.Eth.GetContract(Abi, "0x243e72b69141f6af525a9a5fd939668ee9f2b354");
             var setHash = contract.GetFunction("get");
             var result = await setHash.CallAsync<string>(_fileHash);
             return result;

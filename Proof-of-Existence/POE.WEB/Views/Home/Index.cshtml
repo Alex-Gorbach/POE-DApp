@@ -17,22 +17,28 @@
             using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
 
-        <div>
-            <input id="input-b1" name="file1" type="file" class="file" data-show-preview="false" >
-            <label for="password">Private key:</label>
-            <input type="password" name="privateKeyUpload" id="password" />
-            <input type="submit" class="btn btn-default" value="Send to blockchain"/>
-        </div>
+         <div style="padding: 10px; border: 2px solid CornflowerBlue; border-radius: 8px; max-width: 500px; margin-left: 50px" >
+        <label>Upload file</label>
+            <input id="input-b1" name="file1" type="file" class="file" data-show-preview="false" style="max-width: 50px" >
+             <div style="margin-top: 5px">
+                 <label for="password">Private key:</label>
+                 <input type="password" name="privateKeyUpload" id="password" />
+                 <input type="submit" class="btn btn-default" value="Send to blockchain" />
+             </div>
+           </div>
             }
-       
+   
         
         using(Html.BeginForm("Check", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
-        <div>
+        <div style="padding: 10px; border: 2px solid CornflowerBlue; border-radius: 8px; max-width: 500px; margin-left: 50px" >
+            <label>Check file</label>
             <input id="input-b2" name="file2" type="file" class="file" data-show-preview="false" >
+        <div style="margin-top: 5px">
             <label for="password">Private key:</label>
             <input type="password" name="privateKeyCheck" id="password" />
             <input type="submit" class="btn btn-default"  value="Verify"/>
+        </div>
         </div>
     }
 
@@ -45,7 +51,7 @@ else
         Please, login or register to access the service</h3>
 }
 </div>
-
+<h2> Transaction Hash:0x70ef299d2748f788984321245a5f59c49a1113a5325331a57aec734ccfd1d763</h2>
 <script>
   
     $("#input-b1").fileinput({'showUpload':false, 'previewFileType':'any'});

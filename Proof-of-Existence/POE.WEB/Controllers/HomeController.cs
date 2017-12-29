@@ -56,7 +56,7 @@ namespace UserStore.Controllers
         [HttpPost]
         public async Task<ActionResult> Check(HttpPostedFileBase file2,string privateKeyCheck)
         {
-            string checkResult;
+            string checkResult="";
             if (file2.ContentLength > 0)
             {
                 byte[] imageData = null;
@@ -77,13 +77,13 @@ namespace UserStore.Controllers
                 var owner = UserService.GetAddress(id);
                 var contractService = new ContractService(owner[0], privateKeyCheck, result);
                 checkResult = await contractService.GetFileHash();
-                if (checkResult == null)
+                if (checkResult == "")
                     checkResult = "A document with this hash was not found.";
                 ViewData["Message"] = checkResult;
 
             }
 
-            return View("SuccessUpload",checkResult);
+            return View("SuccessUpload");
         }
         public ActionResult Index()
         {
