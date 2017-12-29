@@ -42,8 +42,8 @@ namespace POE.WEB.Controllers
             await SetInitialDataAsync();
             if (ModelState.IsValid)
             {
-                UserDTO userDto = new UserDTO { Email = model.Email, Password = model.Password };
-                ClaimsIdentity claim = await UserService.Authenticate(userDto);
+                var userDto = new UserDTO { Email = model.Email, Password = model.Password };
+                var claim = await UserService.Authenticate(userDto);
                 if (claim == null)
                 {
                     ModelState.AddModelError("", "Wrong login or password.");

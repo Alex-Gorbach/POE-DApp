@@ -1,16 +1,12 @@
-﻿using System.Web;
-using System.Web.Mvc;
+﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using POE.BLL.Interfaces;
 using POE.WEB.Nethereum;
-using System.Security.Cryptography;
-using System;
-using System.Collections.Generic;
-using Microsoft.AspNet.Identity;
 using System.IO;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
-using Nethereum.Geth;
-using Nethereum.Web3;
+using System.Web;
+using System.Web.Mvc;
 
 namespace UserStore.Controllers
 {
@@ -26,16 +22,16 @@ namespace UserStore.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult> Index(HttpPostedFileBase file,string password)
+        public async Task<ActionResult> Index(HttpPostedFileBase file1,string privateKeyUpload)
         {
-
-            if (file.ContentLength > 0)
+            string tranactionHash="";
+            if (file1.ContentLength > 0)
             {
                 byte[] imageData = null;
 
-                using (var binaryReader = new BinaryReader(file.InputStream))
+                using (var binaryReader = new BinaryReader(file1.InputStream))
                 {
-                    imageData = binaryReader.ReadBytes(file.ContentLength);
+                    imageData = binaryReader.ReadBytes(file1.ContentLength);
                 }
                 MD5 md5 = new MD5CryptoServiceProvider();
                 byte[] hashenc = md5.ComputeHash(imageData);
@@ -47,27 +43,27 @@ namespace UserStore.Controllers
 
                 string id = User.Identity.GetUserId();
                 var owner = UserService.GetAddress(id);
-                var contractService = new ContractService(owner[0], password, result);
-                await contractService.SetFileHash();
+                var contractService = new ContractService(owner[0], privateKeyUpload, result);
+                tranactionHash=await contractService.SetFileHash();
               
                 
                
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", tranactionHash);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Check(HttpPostedFileBase file)
+        public async Task<ActionResult> Check(HttpPostedFileBase file2,string privateKeyCheck)
         {
-            object res ;
-            if (file.ContentLength > 0)
+            string checkResult;
+            if (file2.ContentLength > 0)
             {
                 byte[] imageData = null;
                 
-                using (var binaryReader = new BinaryReader(file.InputStream))
+                using (var binaryReader = new BinaryReader(file2.InputStream))
                 {
-                    imageData = binaryReader.ReadBytes(file.ContentLength);
+                    imageData = binaryReader.ReadBytes(file2.ContentLength);
                 }
                 MD5 md5 = new MD5CryptoServiceProvider();
                 byte[] hashenc = md5.ComputeHash(imageData);
@@ -79,13 +75,15 @@ namespace UserStore.Controllers
 
                 string id = User.Identity.GetUserId();
                 var owner = UserService.GetAddress(id);
-                var contractService = new ContractService(owner[0], "asd", result);
-                res=await contractService.GetFileHash();
-                ViewData["Message"] = res;
+                var contractService = new ContractService(owner[0], privateKeyCheck, result);
+                checkResult = await contractService.GetFileHash();
+                if (checkResult == null)
+                    checkResult = "A document with this hash was not found.";
+                ViewData["Message"] = checkResult;
 
             }
 
-            return View("SuccessUpload");
+            return View("SuccessUpload",checkResult);
         }
         public ActionResult Index()
         {
