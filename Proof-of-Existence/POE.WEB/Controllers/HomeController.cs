@@ -25,7 +25,7 @@ namespace UserStore.Controllers
         public async Task<ActionResult> Index(HttpPostedFileBase file1,string privateKeyUpload)
         {
             string tranactionHash="";
-            if (file1.ContentLength > 0)
+            if (file1 != null)
             {
                 byte[] imageData = null;
 
@@ -45,19 +45,23 @@ namespace UserStore.Controllers
                 var owner = UserService.GetAddress(id);
                 var contractService = new ContractService(owner[0], privateKeyUpload, result);
                 tranactionHash=await contractService.SetFileHash();
-              
-                
-               
+                ViewData["Message"] ="Transaction hash: "+ tranactionHash;
+
+
+            }
+            else
+            {
+                ViewData["Message"] = "Please, Select a file.";
             }
 
-            return RedirectToAction("Index", tranactionHash);
+            return View("Index");
         }
 
         [HttpPost]
         public async Task<ActionResult> Check(HttpPostedFileBase file2,string privateKeyCheck)
         {
             string checkResult="";
-            if (file2.ContentLength > 0)
+            if (file2 !=null)
             {
                 byte[] imageData = null;
                 
@@ -77,11 +81,22 @@ namespace UserStore.Controllers
                 var owner = UserService.GetAddress(id);
                 var contractService = new ContractService(owner[0], privateKeyCheck, result);
                 checkResult = await contractService.GetFileHash();
-                if (checkResult == "")
+                if (checkResult == "") { 
                     checkResult = "A document with this hash was not found.";
                 ViewData["Message"] = checkResult;
+                }
+                else
+                {
+                    ViewData["Message"] ="File existe. Owner: "+ checkResult;
+                }
 
             }
+            else
+            {
+                ViewData["Message"] = "Please, select a file.";
+                return View("Index");
+            }
+            
 
             return View("SuccessUpload");
         }
